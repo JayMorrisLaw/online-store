@@ -1,5 +1,9 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -47,6 +51,19 @@ public class Store {
     }
 
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
+        String line;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                String productID = parts[0];
+                String name = parts[1];
+                double price = Double.parseDouble(parts[2]);
+            }
+            bufferedReader.close();
+        } catch (Exception e) {
+            System.out.println("Error loading file ");
+        }
         // This method should read a CSV file with product information and
         // populate the inventory ArrayList with com.pluralsight.Product objects. Each line
         // of the CSV file contains product information in the following format:
@@ -58,6 +75,15 @@ public class Store {
     }
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
+        "Date", "Time", "Description", "Vendor", "Amount");
+        // printing a table header , using %- to define the spacing for each column(left align)
+        System.out.println("-------------------------------------------------------------------------------------------------");
+        for (Product product : inventory) {
+            System.out.printf("%-12s| %-8s |%-30s |%-22s | %10.2f\n", // %9.2f prints a float using 9 total spaces
+                    product.getProductID(),
+                    product.getPrice(),
+                    product.getDescription();
+
         // This method should display a list of products from the inventory,
         // and prompt the user to add items to their cart. The method should
         // prompt the user to enter the ID of the product they want to add to
@@ -81,10 +107,25 @@ public class Store {
     }
 
     public static Product findProductById(String id, ArrayList<Product> inventory) {
+        boolean found = false;
+        for (Product product : inventory) {
+            if (product.getProductID().equalsIgnoreCase(id)){
+                System.out.println(product);
+                found = true;
+            }
+        }
+        if (!found){
+            System.out.println( id + " found.");
+
         // This method should search the inventory ArrayList for a product with
         // the specified ID, and return the corresponding com.pluralsight.Product object. If
         // no product with the specified ID is found, the method should return
         // null.
     }
-}
+
+        return null;
+    }
+    }
+
+
  
