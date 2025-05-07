@@ -59,6 +59,8 @@ public class Store {
                 String productID = parts[0];
                 String name = parts[1];
                 double price = Double.parseDouble(parts[2]);
+                Product newProduct = new Product(productID,name, price);
+                inventory.add(newProduct);
             }
             bufferedReader.close();
         } catch (Exception e) {
@@ -75,14 +77,10 @@ public class Store {
     }
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
-        "Date", "Time", "Description", "Vendor", "Amount");
-        // printing a table header , using %- to define the spacing for each column(left align)
-        System.out.println("-------------------------------------------------------------------------------------------------");
         for (Product product : inventory) {
-            System.out.printf("%-12s| %-8s |%-30s |%-22s | %10.2f\n", // %9.2f prints a float using 9 total spaces
-                    product.getProductID(),
-                    product.getPrice(),
-                    product.getDescription();
+            System.out.println(product.toString());
+        }
+
 
         // This method should display a list of products from the inventory,
         // and prompt the user to add items to their cart. The method should
@@ -92,6 +90,9 @@ public class Store {
     }
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
+
+
+
         // This method should display the items in the cart ArrayList, along
         // with the total cost of all items in the cart. The method should
         // prompt the user to remove items from their cart by entering the ID
