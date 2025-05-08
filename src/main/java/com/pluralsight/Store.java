@@ -66,32 +66,52 @@ public class Store {
         } catch (Exception e) {
             System.out.println("Error loading file ");
         }
-        // This method should read a CSV file with product information and
-        // populate the inventory ArrayList with com.pluralsight.Product objects. Each line
-        // of the CSV file contains product information in the following format:
-        //
-        // id,name,price
-        //
-        // where id is a unique string identifier, name is the product name,
-        // price is a double value representing the price of the product
     }
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         for (Product product : inventory) {
             System.out.println(product.toString());
         }
+        System.out.println("Enter productID: ");
+        String productID = scanner.nextLine();
+        System.out.println("Product added to cart!");
 
+        for (Product product : inventory) {
+            if (product.getProductID().equalsIgnoreCase(productID)){
+                cart.add(product);
+            }
 
-        // This method should display a list of products from the inventory,
-        // and prompt the user to add items to their cart. The method should
-        // prompt the user to enter the ID of the product they want to add to
-        // their cart. The method should
-        // add the selected product to the cart ArrayList.
+        }
+
     }
 
+
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
+        if (cart.isEmpty()){
+            System.out.println("Your cart is empty");
+        }
+        double total = 0.0;
 
+        System.out.println("Your Cart: ");
+        System.out.println("----------------------------");
 
+        for (Product product : cart) {
+            System.out.println(product);
+            total += product.getPrice();
+        }
+
+        System.out.println("Total amount: " + total);
+        System.out.println("----------------------------");
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("Type 1 to Check Out");
+        System.out.println("Type 2 to Go Back to Home");
+
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        if (input == 1) {
+            checkOut(cart, total);
+        }
 
         // This method should display the items in the cart ArrayList, along
         // with the total cost of all items in the cart. The method should
@@ -118,10 +138,6 @@ public class Store {
         if (!found){
             System.out.println( id + " found.");
 
-        // This method should search the inventory ArrayList for a product with
-        // the specified ID, and return the corresponding com.pluralsight.Product object. If
-        // no product with the specified ID is found, the method should return
-        // null.
     }
 
         return null;
