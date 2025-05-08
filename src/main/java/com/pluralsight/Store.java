@@ -87,7 +87,7 @@ public class Store {
 
 
     public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
-        if (cart.isEmpty()){
+        if (cart.isEmpty()) {
             System.out.println("Your cart is empty");
         }
         double total = 0.0;
@@ -105,44 +105,81 @@ public class Store {
         System.out.println("\nWhat would you like to do next?");
         System.out.println("Type 1 to Check Out");
         System.out.println("Type 2 to Go Back to Home");
+        System.out.println("Type 3 to remove item from cart by ID");
 
         int input = scanner.nextInt();
         scanner.nextLine();
 
-        if (input == 1) {
+        if (input == 3) {
+            System.out.println("Enter product ID to remove: ");
+            String removeProduct = scanner.nextLine();
+            boolean removed = false;
+
+            for (int i = 0; i < cart.size(); i++) {
+                if (cart.get(i).getProductID().equalsIgnoreCase(removeProduct)) {
+                    System.out.println(" success " + cart.get(i).getDescription() + " removed from cart.");
+                    cart.remove(i);
+                    removed = true;
+                    break;
+                }
+            }
+            if (!removed) {
+                System.out.println("no item found with: " + removeProduct);
+            }
+            displayCart(cart, scanner, totalAmount);
+        } else if (input == 1) {
             checkOut(cart, total);
+        } else if (input == 2) {
+            System.out.println("returning home!");
+        } else {
+            System.out.println("invalid choice, returning to cart!");
+            displayCart(cart, scanner, totalAmount);
         }
 
-        // This method should display the items in the cart ArrayList, along
-        // with the total cost of all items in the cart. The method should
-        // prompt the user to remove items from their cart by entering the ID
-        // of the product they want to remove. The method should update the cart ArrayList and totalAmount
-        // variable accordingly.
     }
 
+
     public static void checkOut(ArrayList<Product> cart, double totalAmount) {
-        // This method should calculate the total cost of all items in the cart,
-        // and display a summary of the purchase to the user. The method should
-        // prompt the user to confirm the purchase, and calculate change and clear the cart
-        // if they confirm.
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+
+        System.out.printf("Your total amount is: $%.2f\n", totalAmount);
+        System.out.print("Please enter payment amount: $");
+        Scanner scanner = new Scanner(System.in);
+        double payment = scanner.nextDouble();
+
+
+        if (payment >= totalAmount) {
+            double change = payment - totalAmount;
+            System.out.printf("Thank you for your purchase! Your change is: "+ change);
+
+
+            System.out.println("\nReceipt:");
+            System.out.println("Date: " + date + "Time: " + time);
+            for (Product product : cart) {
+                System.out.println(product);
+            }
+
+            cart.clear();
+            System.out.println("Your cart has been cleared.");
+        } else {
+            System.out.println("Insufficient payment. Please try again.");
+        }
     }
 
     public static Product findProductById(String id, ArrayList<Product> inventory) {
-        boolean found = false;
         for (Product product : inventory) {
             if (product.getProductID().equalsIgnoreCase(id)){
-                System.out.println(product);
-                found = true;
+              return product;
             }
         }
-        if (!found){
-            System.out.println( id + " found.");
+            System.out.println( id + " not found.");
+            return null;
 
     }
 
-        return null;
-    }
+
     }
 
 
- 
+
